@@ -48,221 +48,226 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
         BloomFragment.OnFragmentInteractionListener
 {
 
+        private final static String TAG = MainActivity.class.getSimpleName();
 
-//        private final static String TAG = MainActivity.class.getSimpleName();
-//
-//        /**
-//         * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-//         */
-//        private DrawerLayout mDrawerLayout;
-//        private ListView mDrawerList;
-//        private ActionBarDrawerToggle mDrawerToggle;
-//
-//        private CharSequence mTitle;
-//        private CharSequence mDrawerTitle;
-//        NavigationDrawerAdapter adapter;
-//
-//        List<DrawerItem> dataList;
-//
-//
+        /**
+         * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+         */
+        private DrawerLayout mDrawerLayout;
+        private ListView mDrawerList;
+        private ActionBarDrawerToggle mDrawerToggle;
+
+        private CharSequence mTitle;
+        private CharSequence mDrawerTitle;
+        NavigationDrawerAdapter adapter;
+
+        List<DrawerItem> dataList;
+
+
 //        // ################################################################
 //
-//        public void onFragmentInteraction(Uri uri) {
-////		Log.d(TAG, "onFragmentInteraction()");
-//        }
+        public void onFragmentInteraction(Uri uri) {
+//		Log.d(TAG, "onFragmentInteraction()");
+        }
 //
 //
-//        // ################################################################
+        // ################################################################
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(io.puzzlebox.jigsaw.R.layout.activity_main);
+
+                dataList = new ArrayList<>();
+                mTitle = mDrawerTitle = getTitle();
+                mDrawerLayout = (DrawerLayout) findViewById(io.puzzlebox.jigsaw.R.id.drawer_layout);
+                mDrawerList = (ListView) findViewById(io.puzzlebox.jigsaw.R.id.navigation_drawer);
+
+                mDrawerLayout.setDrawerShadow(io.puzzlebox.jigsaw.R.drawable.drawer_shadow,
+                        GravityCompat.START);
+
+
+                // Add Drawer Item to dataList
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_bloom), io.puzzlebox.jigsaw.R.mipmap.ic_bloom));
+
+                adapter = new NavigationDrawerAdapter(this, io.puzzlebox.jigsaw.R.layout.navigation_drawer_item,
+                        dataList);
+
+                mDrawerList.setAdapter(adapter);
+
+
+                mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
+                if (getSupportActionBar() != null) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                        getSupportActionBar().setHomeButtonEnabled(true);
+                        getSupportActionBar().setHomeAsUpIndicator(io.puzzlebox.jigsaw.R.drawable.ic_drawer);
+                }
+
+                Toolbar mToolbar = new Toolbar(this);
+
+                mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                        mToolbar, io.puzzlebox.jigsaw.R.string.drawer_open,
+                        io.puzzlebox.jigsaw.R.string.drawer_close) {
+                        public void onDrawerClosed(View view) {
+                                getSupportActionBar().setTitle(mTitle);
+                                invalidateOptionsMenu(); // creates call to
+                                // onPrepareOptionsMenu()
+                        }
+
+                        public void onDrawerOpened(View drawerView) {
+                                getSupportActionBar().setTitle(mDrawerTitle);
+                                invalidateOptionsMenu(); // creates call to
+                                // onPrepareOptionsMenu()
+                        }
+                };
+
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+                if (savedInstanceState == null) {
+                        SelectItem(0);
+                }
+
+                SessionSingleton.getInstance().resetSession();
+
+        }
+
+
+        // ################################################################
 //
-//        @Override
-//        protected void onCreate(Bundle savedInstanceState) {
-//                super.onCreate(savedInstanceState);
-//                setContentView(io.puzzlebox.jigsaw.R.layout.activity_main);
-//
-//                dataList = new ArrayList<>();
-//                mTitle = mDrawerTitle = getTitle();
-//                mDrawerLayout = (DrawerLayout) findViewById(io.puzzlebox.jigsaw.R.id.drawer_layout);
-//                mDrawerList = (ListView) findViewById(io.puzzlebox.jigsaw.R.id.navigation_drawer);
-//
-//                mDrawerLayout.setDrawerShadow(io.puzzlebox.jigsaw.R.drawable.drawer_shadow,
-//                        GravityCompat.START);
-//
-//
-//                // Add Drawer Item to dataList
-//                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
-//                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
-//                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
-//                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_bloom), io.puzzlebox.jigsaw.R.mipmap.ic_bloom));
-//
-//                adapter = new NavigationDrawerAdapter(this, io.puzzlebox.jigsaw.R.layout.navigation_drawer_item,
-//                        dataList);
-//
-//                mDrawerList.setAdapter(adapter);
-//
-//
-//                mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//
-//
-//                if (getSupportActionBar() != null) {
-//                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//                        getSupportActionBar().setHomeButtonEnabled(true);
-//                        getSupportActionBar().setHomeAsUpIndicator(io.puzzlebox.jigsaw.R.drawable.ic_drawer);
-//                }
-//
-//                Toolbar mToolbar = new Toolbar(this);
-//
-//                mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-//                        mToolbar, io.puzzlebox.jigsaw.R.string.drawer_open,
-//                        io.puzzlebox.jigsaw.R.string.drawer_close) {
-//                        public void onDrawerClosed(View view) {
-//                                getSupportActionBar().setTitle(mTitle);
-//                                invalidateOptionsMenu(); // creates call to
-//                                // onPrepareOptionsMenu()
-//                        }
-//
-//                        public void onDrawerOpened(View drawerView) {
-//                                getSupportActionBar().setTitle(mDrawerTitle);
-//                                invalidateOptionsMenu(); // creates call to
-//                                // onPrepareOptionsMenu()
-//                        }
-//                };
-//
-//                mDrawerLayout.setDrawerListener(mDrawerToggle);
-//
-//                if (savedInstanceState == null) {
-//                        SelectItem(0);
-//                }
-//
-//                SessionSingleton.getInstance().resetSession();
-//
-//        }
-//
-//
-//        // ################################################################
-//
-//        @Override
-//        public boolean onOptionsItemSelected(MenuItem item) {
-//
-//                super.onOptionsItemSelected(item);
-//
-//                return mDrawerToggle.onOptionsItemSelected(item);
-//
-//        }
-//
-//
-//        // ################################################################
-//
-//        public void SelectItem(int position) {
-//
-//                android.app.Fragment fragment = null;
-//                Bundle args = new Bundle();
-//                String backStackName = "";
-//                switch (position) {
-//                        case 0:
-//                                backStackName = "welcome";
-//                                try{
-//                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
-//                                } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                }
-//                                if (fragment == null)
-//                                        fragment = new WelcomeFragment();
-//                                break;
-//                        case 1:
-//                                backStackName = "session";
-//                                try{
-//                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
-//                                } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                }
-//                                if (fragment == null)
-//                                        fragment = new SessionFragment();
-//                                break;
-//                        case 2:
-//                                backStackName = "eeg";
-//                                try{
-//                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
-//                                } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                }
-//                                if (fragment == null)
-//                                        fragment = new EEGFragment();
-//
-//                                break;
-//                        case 3:
-//                                backStackName = "bloom";
-//                                try{
-//                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
-//                                } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                }
-//                                if (fragment == null)
-//                                        fragment = new BloomFragment();
-//
-//                                break;
-//                        default:
-//                                break;
-//                }
-//
-//                if (fragment != null)
-//                        fragment.setArguments(args);
-//                android.app.FragmentManager frgManager = getFragmentManager();
-//                frgManager.beginTransaction().replace(io.puzzlebox.jigsaw.R.id.container, fragment)
-//                        .addToBackStack(backStackName)
-//                        .commit();
-//
-//                mDrawerList.setItemChecked(position, true);
-//                setTitle(dataList.get(position).getItemName());
-//                mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        }
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+
+                super.onOptionsItemSelected(item);
+
+                return mDrawerToggle.onOptionsItemSelected(item);
+
+        }
 //
 //
-//        // ################################################################
-//
-//        @Override
-//        public void setTitle(CharSequence title) {
-//                mTitle = title;
-//                if (getSupportActionBar() != null)
-//                        getSupportActionBar().setTitle(mTitle);
-//        }
-//
-//
-//        // ################################################################
-//
-//        @Override
-//        protected void onPostCreate(Bundle savedInstanceState) {
-//                super.onPostCreate(savedInstanceState);
-//                // Sync the toggle state after onRestoreInstanceState has occurred.
-//                mDrawerToggle.syncState();
-//
-//        }
-//
-//
-//        // ################################################################
-//
-//        @Override
-//        public void onConfigurationChanged(Configuration newConfig) {
-//                super.onConfigurationChanged(newConfig);
-//                // Pass any configuration change to the drawer toggles
-//                mDrawerToggle.onConfigurationChanged(newConfig);
-//        }
-//
-//
-//        // ################################################################
-//
-//        private class DrawerItemClickListener implements
-//                ListView.OnItemClickListener {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position,
-//                                        long id) {
-//                        SelectItem(position);
-//
-//                }
-//        }
-//
-//
-//        // ################################################################
+        // ################################################################
+
+        @Override
+        public void SelectItem(int position) {
+
+                android.app.Fragment fragment = null;
+                Bundle args = new Bundle();
+                String backStackName = "";
+                switch (position) {
+                        case 0:
+                                backStackName = "welcome";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new WelcomeFragment();
+                                break;
+                        case 1:
+                                backStackName = "session";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new SessionFragment();
+                                break;
+                        case 2:
+                                backStackName = "eeg";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new EEGFragment();
+
+                                break;
+                        case 3:
+                                backStackName = "bloom";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new BloomFragment();
+
+                                break;
+                        default:
+                                break;
+                }
+
+                if (fragment != null)
+                        fragment.setArguments(args);
+                android.app.FragmentManager frgManager = getFragmentManager();
+                frgManager.beginTransaction().replace(io.puzzlebox.jigsaw.R.id.container, fragment)
+                        .addToBackStack(backStackName)
+                        .commit();
+
+
+                if (mDrawerList != null) {
+                        mDrawerList.setItemChecked(position, true);
+                        setTitle(dataList.get(position).getItemName());
+                        mDrawerLayout.closeDrawer(mDrawerList);
+                } else {
+                        Log.w(TAG, "mDrawerList == null");
+                }
+
+        }
+
+
+        // ################################################################
+
+        @Override
+        public void setTitle(CharSequence title) {
+                mTitle = title;
+                if (getSupportActionBar() != null)
+                        getSupportActionBar().setTitle(mTitle);
+        }
+
+
+        // ################################################################
+
+        @Override
+        protected void onPostCreate(Bundle savedInstanceState) {
+                super.onPostCreate(savedInstanceState);
+                // Sync the toggle state after onRestoreInstanceState has occurred.
+                mDrawerToggle.syncState();
+
+        }
+
+
+        // ################################################################
+
+        @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+                super.onConfigurationChanged(newConfig);
+                // Pass any configuration change to the drawer toggles
+                mDrawerToggle.onConfigurationChanged(newConfig);
+        }
+
+
+        // ################################################################
+
+        private class DrawerItemClickListener implements
+                ListView.OnItemClickListener {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                        SelectItem(position);
+
+                }
+        }
+
+
+        // ################################################################
 //
 //        @Override
 //        public void onPause() {
