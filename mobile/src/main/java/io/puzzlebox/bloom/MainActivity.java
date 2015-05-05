@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import io.puzzlebox.jigsaw.data.SessionSingleton;
-import io.puzzlebox.jigsaw.ui.BloomFragment;
+//import io.puzzlebox.jigsaw.ui.BloomFragment;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
 import io.puzzlebox.jigsaw.ui.EEGFragment;
 //import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
