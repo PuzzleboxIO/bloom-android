@@ -80,7 +80,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
-                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_bloom), io.puzzlebox.jigsaw.R.mipmap.ic_bloom));
+                dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
 
                 return dataList;
         }
