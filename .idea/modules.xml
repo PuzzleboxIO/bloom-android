@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/bloom-android.iml" filepath="$PROJECT_DIR$/bloom-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jigsaw/jigsaw.iml" filepath="$PROJECT_DIR$/jigsaw/jigsaw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jigsaw-android/jigsaw/jigsaw.iml" filepath="$PROJECT_DIR$/../jigsaw-android/jigsaw/jigsaw.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
     </modules>
