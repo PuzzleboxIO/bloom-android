@@ -23,3 +23,5 @@ Instructions:
 - In Android Studio -> File -> New -> Import Module -> Select Source Directory
 
 - Only the ":jigsaw" module is required
+
+- Copy any proprietary .jar libraries to jigsawl/libs 
