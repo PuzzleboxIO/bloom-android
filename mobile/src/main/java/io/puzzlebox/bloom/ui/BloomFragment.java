@@ -345,6 +345,7 @@ public class BloomFragment extends Fragment
 					BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
 				} else {
 					if (BloomSingleton.getInstance().mBluetoothLeService != null) {
+						setBloomRGBOff();
 						BloomSingleton.getInstance().mBluetoothLeService.disconnect();
 						BloomSingleton.getInstance().mBluetoothLeService.close();
 						setButtonDisable();
@@ -558,6 +559,8 @@ public class BloomFragment extends Fragment
 		getActivity().unbindService(mServiceConnection);
 
 
+		setBloomRGBOff();
+
 		// Force disconnect from Bloom until BLE handling shifted into background service
 		if (BloomSingleton.getInstance().mBluetoothLeService != null) {
 			BloomSingleton.getInstance().mBluetoothLeService.disconnect();
@@ -704,48 +707,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-//	private void updateSessionTime() {
-//
-//		textViewSessionTime.setText( SessionSingleton.getInstance().getSessionTimestamp() );
-//
-//	}
-
-
-	// ################################################################
-
-//	public SimpleXYSeries updateSessionPlotHistory(String name,
-//	                                               Number[] values,
-//	                                               Integer color,
-//	                                               XYPlot mPlot,
-//	                                               SimpleXYSeries mSeries) {
-//
-////		if (sessionPlot1 != null) {
-////			sessionPlot1.removeSeries(sessionPlotSeries1);
-//
-//		if (mPlot != null) {
-//			mPlot.removeSeries(mSeries);
-//
-//			mSeries = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, name);
-//
-//			LineAndPointFormatter format = new LineAndPointFormatter(color, color, null, null);
-//
-//			//		format.getFillPaint().setAlpha(220);
-//
-//			mPlot.addSeries(mSeries, format);
-//
-//
-//			// Redraw the plots:
-//			mPlot.redraw();
-//
-//			return mSeries;
-//		} else
-//			return null;
-//
-//	} // updateSessionPlotHistory
-
-
-	// ################################################################
-
 	private void displayData(String data) {
 		if (data != null) {
 //			rssiValue.setText(data);
@@ -817,6 +778,33 @@ public class BloomFragment extends Fragment
 		buttonDemo.setEnabled(false);
 
 		progressBarRange.setProgress(0);
+	}
+
+
+	// ################################################################
+
+	private void setBloomRGBOff() {
+
+		if ((BloomSingleton.getInstance().mBluetoothLeService != null) &&
+				  (BloomSingleton.getInstance().characteristicTx != null)) {
+
+			// Set Red to 0
+			byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+			// Set Green to 0
+			buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 1
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+			// Set Blue to 0
+			buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 2
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+		}
+
 	}
 
 
