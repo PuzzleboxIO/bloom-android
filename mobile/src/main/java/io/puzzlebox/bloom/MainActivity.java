@@ -51,6 +51,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
 
                 dataList = getDrawerDataList();
 
+                mTitle = mDrawerTitle = getTitle();
                 mDrawerLayout = (DrawerLayout) findViewById(io.puzzlebox.jigsaw.R.id.drawer_layout);
                 mDrawerList = (ListView) findViewById(io.puzzlebox.jigsaw.R.id.navigation_drawer);
 
@@ -61,7 +62,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         mToolbar, io.puzzlebox.jigsaw.R.string.drawer_open,
                         io.puzzlebox.jigsaw.R.string.drawer_close) {
                         public void onDrawerClosed(View view) {
-                                getSupportActionBar().setTitle(mTitle);
+//                                getSupportActionBar().setTitle(mTitle);
                                 invalidateOptionsMenu(); // creates call to
                                 // onPrepareOptionsMenu()
                         }
