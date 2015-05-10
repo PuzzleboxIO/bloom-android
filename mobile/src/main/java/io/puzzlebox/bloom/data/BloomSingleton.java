@@ -19,6 +19,9 @@ public class BloomSingleton {
 	public BluetoothDevice mDevice = null;
 	public String mDeviceAddress;
 
+//	public long timeSinceLastUpdate = 0;
+//	public long minDelayUpdates = 1000;
+
 	public boolean flag = true;
 	public boolean connState = false;
 	public boolean scanFlag = false;

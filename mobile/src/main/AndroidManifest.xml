@@ -27,10 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
-    <service
-        android:name="io.puzzlebox.jigsaw.protocol.RBLService"
-        android:enabled="true" />
+        <service
+            android:name="io.puzzlebox.jigsaw.protocol.RBLService"
+            android:enabled="true" />
+
+    </application>
 
 </manifest>

@@ -4,9 +4,9 @@
  * License: GNU Affero General Public License Version 3
  */
 
-package io.puzzlebox.bloom;
+package io.puzzlebox.bloom.ui;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
@@ -26,7 +26,6 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -47,7 +46,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.bloom.R;
 import io.puzzlebox.bloom.data.BloomSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.MuseService;
@@ -57,9 +56,16 @@ import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+//@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BloomFragment extends Fragment
 		  implements SeekBar.OnSeekBarChangeListener {
+
+	/**
+	 * TODO
+	 * - Convert Bluetooth handling to support background control
+	 * - Range cuts out during Bloom control with MindWave
+	 * - Muse packets too fast for Bloom
+	 */
 
 	private final static String TAG = BloomFragment.class.getSimpleName();
 
@@ -101,7 +107,7 @@ public class BloomFragment extends Fragment
 //	private Button buttonOpen = null;
 //	private Button buttonClose = null;
 
-//	private TextView rssiValue = null;
+	//	private TextView rssiValue = null;
 	private SeekBar servoSeekBar;
 
 //	private static TextView textViewSessionTime;
@@ -232,58 +238,6 @@ public class BloomFragment extends Fragment
 //		progressBarBloom.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 
-//		// setup the Raw EEG History plot
-//		eegRawHistoryPlot = (XYPlot) v.findViewById(R.id.eegRawHistoryPlot);
-//		eegRawHistorySeries = new SimpleXYSeries("Raw EEG");
-//
-//		// Use index value as xVal, instead of explicit, user provided xVals.
-//		//		eegRawHistorySeries.useImplicitXVals();
-//
-//		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-//
-//		if (eegRawHistoryPlot != null) {
-//
-//			eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
-//			//		eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.AUTO);
-//			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.FIXED);
-//			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.AUTO);
-//			eegRawHistoryPlot.setRangeBoundaries(-256, 256, BoundaryMode.GROW);
-//
-//			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-//
-//			// Thin out domain and range tick values so they don't overlap
-//			eegRawHistoryPlot.setDomainStepValue(5);
-//			eegRawHistoryPlot.setTicksPerRangeLabel(3);
-//
-//			//		eegRawHistoryPlot.setRangeLabel("Amplitude");
-//
-//			// Sets the dimensions of the widget to exactly contain the text contents
-//			eegRawHistoryPlot.getDomainLabelWidget().pack();
-//			eegRawHistoryPlot.getRangeLabelWidget().pack();
-//
-//			// Only display whole numbers in labels
-//			eegRawHistoryPlot.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-//			eegRawHistoryPlot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
-//
-//			// Hide domain and range labels
-//			eegRawHistoryPlot.getGraphWidget().setDomainLabelWidth(0);
-//			eegRawHistoryPlot.getGraphWidget().setRangeLabelWidth(0);
-//
-//			// Hide legend
-//			eegRawHistoryPlot.getLegendWidget().setVisible(false);
-//
-//			// setGridPadding(float left, float top, float right, float bottom)
-//			eegRawHistoryPlot.getGraphWidget().setGridPadding(0, 0, 0, 0);
-//
-//
-//			//		eegRawHistoryPlot.getGraphWidget().setDrawMarkersEnabled(false);
-//
-//			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-//			//		eegRawHistoryPlot.addListener(histStats);
-//
-//		}
-
-
 		seekBarAttention = (SeekBar) v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);
 		seekBarMeditation = (SeekBar) v.findViewById(R.id.seekBarMeditation);
@@ -312,6 +266,7 @@ public class BloomFragment extends Fragment
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 			                              boolean fromUser) {
+
 				byte[] buf = new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0x00 };
 
 				buf[1] = (byte) servoSeekBar.getProgress();
@@ -331,33 +286,56 @@ public class BloomFragment extends Fragment
 
 			@Override
 			public void onClick(View v) {
-				if (!BloomSingleton.getInstance().scanFlag) {
-					scanLeDevice();
+				try {
+					if (!BloomSingleton.getInstance().scanFlag) {
+						scanLeDevice();
 
-					Timer mTimer = new Timer();
-					mTimer.schedule(new TimerTask() {
+						Timer mTimer = new Timer();
+						mTimer.schedule(new TimerTask() {
 
-						@Override
-						public void run() {
-							if (BloomSingleton.getInstance().mDevice != null) {
-								BloomSingleton.getInstance().mDeviceAddress = BloomSingleton.getInstance().mDevice.getAddress();
-								BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
-								BloomSingleton.getInstance().scanFlag = true;
-							} else {
-								getActivity().runOnUiThread(new Runnable() {
-									public void run() {
+							@Override
+							public void run() {
+								if ((BloomSingleton.getInstance().mDevice != null) &&
+										  (BloomSingleton.getInstance().mDevice.getAddress() != null) &&
+										  (BloomSingleton.getInstance().mBluetoothLeService != null)){
+									BloomSingleton.getInstance().mDeviceAddress = BloomSingleton.getInstance().mDevice.getAddress();
+									if (BloomSingleton.getInstance().mDeviceAddress != null)
+										BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
+									else {
 										Toast toast = Toast
 												  .makeText(
 															 getActivity(),
 															 "Error connecting to Puzzlebox Bloom",
 															 Toast.LENGTH_SHORT);
-										toast.setGravity(0, 0, Gravity.CENTER);
+										toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
 										toast.show();
 									}
-								});
+									BloomSingleton.getInstance().scanFlag = true;
+								} else {
+									getActivity().runOnUiThread(new Runnable() {
+										public void run() {
+											Toast toast = Toast
+													  .makeText(
+																 getActivity(),
+																 "Error connecting to Puzzlebox Bloom",
+																 Toast.LENGTH_SHORT);
+											toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
+											toast.show();
+										}
+									});
+								}
 							}
-						}
-					}, BloomSingleton.getInstance().SCAN_PERIOD);
+						}, BloomSingleton.getInstance().SCAN_PERIOD);
+					}
+				} catch (Exception e) {
+					Log.e(TAG, "Exception connecting to Bloom: " + e);
+					Toast toast = Toast
+							  .makeText(
+										 getActivity(),
+										 "Exception connecting to Puzzlebox Bloom",
+										 Toast.LENGTH_SHORT);
+					toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
+					toast.show();
 				}
 
 				System.out.println(BloomSingleton.getInstance().connState);
@@ -468,103 +446,6 @@ public class BloomFragment extends Fragment
 		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
 
 
-//		// setup the Session History plot
-//		sessionPlot1 = (XYPlot) v.findViewById(R.id.sessionPlot1);
-//		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
-//
-//		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-//
-//		if (sessionPlot1 != null) {
-//
-//			sessionPlot1.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-////			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.GROW);
-//			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
-//
-////			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-//			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
-//
-//			// Thin out domain and range tick values so they don't overlap
-//			sessionPlot1.setDomainStepValue(1);
-//			sessionPlot1.setTicksPerRangeLabel(10);
-//
-//			sessionPlot1.setRangeLabel("Attention");
-//
-//			// Sets the dimensions of the widget to exactly contain the text contents
-//			sessionPlot1.getDomainLabelWidget().pack();
-//			sessionPlot1.getRangeLabelWidget().pack();
-//
-//			// Only display whole numbers in labels
-//			sessionPlot1.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-//			sessionPlot1.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
-//
-//			// Hide domain and range labels
-//			sessionPlot1.getGraphWidget().setDomainLabelWidth(0);
-//			sessionPlot1.getGraphWidget().setRangeLabelWidth(0);
-//
-//			// Hide legend
-//			sessionPlot1.getLegendWidget().setVisible(false);
-//
-//			// setGridPadding(float left, float top, float right, float bottom)
-//			sessionPlot1.getGraphWidget().setGridPadding(0, 0, 0, 0);
-//
-//
-//			//		sessionPlot1.getGraphWidget().setDrawMarkersEnabled(false);
-//
-//			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-//			//		sessionPlot1.addListener(histStats);
-//
-//		}
-//
-//
-//
-//		// setup the Session History plot
-//		sessionPlot2 = (XYPlot) v.findViewById(R.id.sessionPlot2);
-//		sessionPlotSeries2 = new SimpleXYSeries("Session Plot");
-//
-//		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-//
-//		if (sessionPlot2 != null) {
-//
-//			sessionPlot2.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-////			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.GROW);
-//			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
-//
-////			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-//			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
-//
-//			// Thin out domain and range tick values so they don't overlap
-//			sessionPlot2.setDomainStepValue(1);
-//			sessionPlot2.setTicksPerRangeLabel(10);
-//
-//			sessionPlot2.setRangeLabel("Meditation");
-//
-//			// Sets the dimensions of the widget to exactly contain the text contents
-//			sessionPlot2.getDomainLabelWidget().pack();
-//			sessionPlot2.getRangeLabelWidget().pack();
-//
-//			// Only display whole numbers in labels
-//			sessionPlot2.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-//			sessionPlot2.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
-//
-//			// Hide domain and range labels
-//			sessionPlot2.getGraphWidget().setDomainLabelWidth(0);
-//			sessionPlot2.getGraphWidget().setRangeLabelWidth(0);
-//
-//			// Hide legend
-//			sessionPlot2.getLegendWidget().setVisible(false);
-//
-//			// setGridPadding(float left, float top, float right, float bottom)
-//			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
-//
-//
-//			//		sessionPlot2.getGraphWidget().setDrawMarkersEnabled(false);
-//
-//			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-//			//		sessionPlot2.addListener(histStats);
-//
-//		}
-
-
 		/**
 		 * Update settings according to default UI
 		 */
@@ -637,14 +518,14 @@ public class BloomFragment extends Fragment
 
 		if (!BloomSingleton.getInstance().mBluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+					  BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableBtIntent, BloomSingleton.getInstance().REQUEST_ENABLE_BT);
 		}
 
 		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
 		Intent gattServiceIntent = new Intent(getActivity(),
-				RBLService.class);
+				  RBLService.class);
 		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
 
 //		if (BloomSingleton.getInstance().connState)
@@ -653,7 +534,7 @@ public class BloomFragment extends Fragment
 //		updateSessionTime();
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
 
 	}
@@ -670,11 +551,21 @@ public class BloomFragment extends Fragment
 
 		LocalBroadcastManager.getInstance(
 				  getActivity().getApplicationContext()).unregisterReceiver(
-				mPacketReceiver);
+				  mPacketReceiver);
 
 		getActivity().unregisterReceiver(mGattUpdateReceiver);
 
 		getActivity().unbindService(mServiceConnection);
+
+
+		// Force disconnect from Bloom until BLE handling shifted into background service
+		if (BloomSingleton.getInstance().mBluetoothLeService != null) {
+			BloomSingleton.getInstance().mBluetoothLeService.disconnect();
+			BloomSingleton.getInstance().mBluetoothLeService.close();
+		}
+
+
+		setButtonDisable();
 
 
 	} // onPause
