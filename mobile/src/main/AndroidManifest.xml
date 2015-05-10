@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="io.puzzlebox.bloom">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="io.puzzlebox.bloom">
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -28,5 +28,9 @@
             </intent-filter>
         </activity>
     </application>
+
+    <service
+        android:name="io.puzzlebox.jigsaw.protocol.RBLService"
+        android:enabled="true" />
 
 </manifest>

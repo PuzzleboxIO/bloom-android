@@ -6,13 +6,16 @@ android {
 
     defaultConfig {
         applicationId "io.puzzlebox.bloom"
-        minSdkVersion 15
+//        minSdkVersion 9 // API 2.3
+//        minSdkVersion 15 // API 4.0.3
+        minSdkVersion 18 // API 4.3 (Minimum version supporting Bluetooth LE)
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -23,6 +26,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jigsaw')
     wearApp project(':wear')
-//    compile 'com.android.support:appcompat-v7:22.1.1'
-//    compile 'com.google.android.gms:play-services:7.3.0'
 }

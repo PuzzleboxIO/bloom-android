@@ -1,3 +1,9 @@
+/**
+ * Puzzlebox Bloom
+ * Copyright 2015 Puzzlebox Productions, LLC
+ * License: GNU Affero General Public License Version 3
+ */
+
 package io.puzzlebox.bloom;
 
 import android.os.Bundle;
@@ -11,20 +17,20 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-//import io.puzzlebox.jigsaw.data.SessionSingleton;
-//import io.puzzlebox.jigsaw.ui.BloomFragment;
+import io.puzzlebox.bloom.ui.WelcomeFragment;
+import io.puzzlebox.bloom.ui.BloomFragment;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
 import io.puzzlebox.jigsaw.ui.EEGFragment;
-//import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
 import io.puzzlebox.jigsaw.ui.SessionFragment;
-import io.puzzlebox.jigsaw.ui.WelcomeFragment;
+import io.puzzlebox.jigsaw.ui.SupportFragment;
 
 
 public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
         WelcomeFragment.OnFragmentInteractionListener,
         SessionFragment.OnFragmentInteractionListener,
         EEGFragment.OnFragmentInteractionListener,
-        BloomFragment.OnFragmentInteractionListener
+        BloomFragment.OnFragmentInteractionListener,
+        SupportFragment.OnFragmentInteractionListener
 {
 
         private final static String TAG = MainActivity.class.getSimpleName();
@@ -78,9 +84,10 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                 List<DrawerItem> dataList = new ArrayList<>();
 
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
-                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
-                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
                 dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+                dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
                 return dataList;
         }
@@ -135,6 +142,17 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                                 }
                                 if (fragment == null)
                                         fragment = new BloomFragment();
+
+                                break;
+                        case 4:
+                                backStackName = "support";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new SupportFragment();
 
                                 break;
                         default:
