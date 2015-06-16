@@ -43,17 +43,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_medium"
-                android:text="@string/label_range" />
+                android:text="@string/label_range"
+                android:paddingTop="10dp"/>
 
             <ProgressBar
                 android:id="@+id/progressBarRange"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="25dip"
+                android:layout_height="25dp"
                 android:paddingLeft="@dimen/padding_small"
                 android:paddingRight="@dimen/padding_small"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="5dp"/>
 
             <TextView
                 android:id="@+id/textViewLabelServo"
@@ -61,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/padding_medium"
-                android:text="@string/label_servo" />
+                android:text="@string/label_servo"
+                android:paddingTop="10dp"/>
 
             <SeekBar
                 android:id="@+id/ServoSeekBar"
@@ -71,7 +75,8 @@
                 android:max="100"
                 android:progress="0"
                 android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"/>
+                android:layout_marginRight="@dimen/padding_large"
+                android:paddingBottom="5dp"/>
             <!--android:progressDrawable="@drawable/seekbar_style" />-->
 
             <TextView
@@ -80,7 +85,7 @@
                 android:text="@string/label_colors"
                 android:id="@+id/textViewRGB"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
                 android:paddingBottom="10dp"/>
 
             <LinearLayout
@@ -106,7 +111,7 @@
                     android:progressDrawable="@drawable/progress_red"
                     android:enabled="false"
                     android:max="255"
-                    android:progress="255"
+                    android:progress="0"
                     android:layout_marginLeft="@dimen/padding_large"
                     android:layout_marginRight="@dimen/padding_large"
                     android:paddingBottom="5dp"/>
@@ -126,7 +131,7 @@
                     android:progressDrawable="@drawable/progress_green"
                     android:enabled="false"
                     android:max="255"
-                    android:progress="255"
+                    android:progress="0"
                     android:layout_marginLeft="@dimen/padding_large"
                     android:layout_marginRight="@dimen/padding_large"
                     android:paddingTop="5dp"
@@ -147,10 +152,11 @@
                     android:progressDrawable="@drawable/progress_blue"
                     android:enabled="false"
                     android:max="255"
-                    android:progress="255"
+                    android:progress="0"
                     android:layout_marginLeft="@dimen/padding_large"
                     android:layout_marginRight="@dimen/padding_large"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:paddingBottom="10dp"/>
 
             </LinearLayout>
 

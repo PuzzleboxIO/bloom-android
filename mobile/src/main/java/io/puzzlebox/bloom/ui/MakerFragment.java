@@ -88,34 +88,26 @@ public class MakerFragment extends Fragment
 	 * UI
 	 */
 //	Configuration config;
-	ProgressBar progressBarAttention;
-	SeekBar seekBarAttention;
-	ProgressBar progressBarMeditation;
-	SeekBar seekBarMeditation;
-	ProgressBar progressBarSignal;
-	ProgressBar progressBarPower;
 //	Button connectButton;
 
 	ProgressBar progressBarRange;
-//	ProgressBar progressBarBloom;
 
 //	ImageView imageViewStatus;
 
 	private Button connectBloom = null;
 
+	private Button buttonOpen = null;
+	private Button buttonClose = null;
+	private Button buttonCycleServo = null;
+	private Button buttonCycleRGB = null;
 	private Button buttonDemo = null;
-//	private Button buttonOpen = null;
-//	private Button buttonClose = null;
 
 	//	private TextView rssiValue = null;
 	private SeekBar servoSeekBar;
 
-//	private static TextView textViewSessionTime;
-
-	int[] thresholdValuesAttention = new int[101];
-	int[] thresholdValuesMeditation = new int[101];
-	int minimumPower = 0; // minimum power for the bloom
-	int maximumPower = 100; // maximum power for the bloom
+	private SeekBar redSeekBar;
+	private SeekBar greenSeekBar;
+	private SeekBar blueSeekBar;
 
 	//	private static XYPlot sessionPlot1 = null;
 	//	private static SimpleXYSeries sessionPlotSeries1 = null;
@@ -184,39 +176,6 @@ public class MakerFragment extends Fragment
 //		setContentView(R.layout.main);
 //		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
-//		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
-//		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
-//		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-//		String progressBarAttentionColor = "#FF0000";
-//		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
-//		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarAttention.setProgressDrawable(progressAttention);
-//		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//
-//		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
-//		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-//		String progressBarMeditationColor = "#0000FF";
-//		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
-//		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarMeditation.setProgressDrawable(progressMeditation);
-//		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//
-//		progressBarSignal = (ProgressBar) v.findViewById(R.id.progressBarSignal);
-//		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-//		String progressBarSignalColor = "#00FF00";
-//		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
-//		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarSignal.setProgressDrawable(progressSignal);
-//		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//		//		progressBarSignal.setProgress(tgSignal);
-//
-//		progressBarPower = (ProgressBar) v.findViewById(R.id.progressBarPower);
-//		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-//		String progressBarPowerColor = "#FFFF00";
-//		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
-//		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarPower.setProgressDrawable(progressPower);
-//		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarRange = (ProgressBar) v.findViewById(R.id.progressBarRange);
 //		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -230,21 +189,6 @@ public class MakerFragment extends Fragment
 
 //		progressBarRange.setMax(128 + 127);
 		progressBarRange.setMax(bloomRangeMax);
-
-
-//		progressBarBloom = (ProgressBar) v.findViewById(R.id.progressBarBloom);
-//		ShapeDrawable progressBarBloomDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-//		String progressBarBloomColor = "#7F0000";
-//		progressBarBloomDrawable.getPaint().setColor(Color.parseColor(progressBarBloomColor));
-//		ClipDrawable progressBloom = new ClipDrawable(progressBarBloomDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarBloom.setProgressDrawable(progressBloom);
-//		progressBarBloom.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-
-
-//		seekBarAttention = (SeekBar) v.findViewById(R.id.seekBarAttention);
-//		seekBarAttention.setOnSeekBarChangeListener(this);
-//		seekBarMeditation = (SeekBar) v.findViewById(R.id.seekBarMeditation);
-//		seekBarMeditation.setOnSeekBarChangeListener(this);
 
 
 //		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
@@ -270,7 +214,7 @@ public class MakerFragment extends Fragment
 			public void onProgressChanged(SeekBar seekBar, int progress,
 			                              boolean fromUser) {
 
-				byte[] buf = new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0x00 };
+				byte[] buf = new byte[]{(byte) 0x03, (byte) 0x00, (byte) 0x00};
 
 				buf[1] = (byte) servoSeekBar.getProgress();
 
@@ -300,7 +244,7 @@ public class MakerFragment extends Fragment
 							public void run() {
 								if ((BloomSingleton.getInstance().mDevice != null) &&
 										  (BloomSingleton.getInstance().mDevice.getAddress() != null) &&
-										  (BloomSingleton.getInstance().mBluetoothLeService != null)){
+										  (BloomSingleton.getInstance().mBluetoothLeService != null)) {
 									BloomSingleton.getInstance().mDeviceAddress = BloomSingleton.getInstance().mDevice.getAddress();
 									if (BloomSingleton.getInstance().mDeviceAddress != null)
 										BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
@@ -310,7 +254,7 @@ public class MakerFragment extends Fragment
 															 getActivity(),
 															 "Error connecting to Puzzlebox Bloom",
 															 Toast.LENGTH_SHORT);
-										toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
+										toast.setGravity(0, 0, Gravity.CENTER | Gravity.BOTTOM);
 										toast.show();
 									}
 									BloomSingleton.getInstance().scanFlag = true;
@@ -322,7 +266,7 @@ public class MakerFragment extends Fragment
 																 getActivity(),
 																 "Error connecting to Puzzlebox Bloom",
 																 Toast.LENGTH_SHORT);
-											toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
+											toast.setGravity(0, 0, Gravity.CENTER | Gravity.BOTTOM);
 											toast.show();
 										}
 									});
@@ -337,7 +281,7 @@ public class MakerFragment extends Fragment
 										 getActivity(),
 										 "Exception connecting to Puzzlebox Bloom",
 										 Toast.LENGTH_SHORT);
-					toast.setGravity(0, 0, Gravity.CENTER|Gravity.BOTTOM);
+					toast.setGravity(0, 0, Gravity.CENTER | Gravity.BOTTOM);
 					toast.show();
 				}
 
@@ -358,18 +302,112 @@ public class MakerFragment extends Fragment
 		});
 
 
-		Button buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
+
+
+
+		redSeekBar = (SeekBar) v.findViewById(R.id.seekBarRed);
+		redSeekBar.setEnabled(false);
+		redSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+			                              boolean fromUser) {
+
+				bloomColorRed = redSeekBar.getProgress();
+
+				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) bloomColorRed};
+
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+			}
+		});
+
+
+
+
+		greenSeekBar = (SeekBar) v.findViewById(R.id.seekBarGreen);
+		greenSeekBar.setEnabled(false);
+		greenSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+			                              boolean fromUser) {
+
+				bloomColorGreen = greenSeekBar.getProgress();
+
+				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) bloomColorGreen};
+
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+			}
+		});
+
+
+
+		blueSeekBar = (SeekBar) v.findViewById(R.id.seekBarBlue);
+		blueSeekBar.setEnabled(false);
+		blueSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+			                              boolean fromUser) {
+
+				bloomColorBlue = blueSeekBar.getProgress();
+
+				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) bloomColorBlue};
+
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+			}
+		});
+
+
+
+		buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
 		buttonOpen.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				byte[] buf = new byte[] { (byte) 0x01, (byte) 0x00, (byte) 0x00 };
+				byte[] buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
 //		buttonOpen.setVisibility(View.GONE);
 
-		Button buttonClose = (Button) v.findViewById(R.id.buttonClose);
+		buttonClose = (Button) v.findViewById(R.id.buttonClose);
 		buttonClose.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -380,52 +418,100 @@ public class MakerFragment extends Fragment
 		});
 //		buttonClose.setVisibility(View.GONE);
 
+
+
+
+
+
+
+		buttonCycleServo = (Button) v.findViewById(R.id.buttonDemoServo);
+		buttonCycleServo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				byte[] buf = new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0x00 }; // Cycle
+				byte[] buf = new byte[] { (byte) 0x04, (byte) 0x00, (byte) 0x00 }; // CycleSlow
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+			}
+		});
+
+
+
+
+		buttonCycleRGB = (Button) v.findViewById(R.id.buttonDemoRGB);
+		buttonCycleRGB.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				byte[] buf = new byte[] { (byte) 0x06, (byte) 0x00, (byte) 0x00 };
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+				updateBloomRGB();
+
+			}
+		});
+
+
+
+
 		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
 		buttonDemo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				byte[] buf;
-//				if (! BloomSingleton.getInstance().demoActive) {
-				BloomSingleton.getInstance().demoActive = true;
-
-				// bloomOpen()
-//				buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
-//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// loopRGB()
-				buf = new byte[]{(byte) 0x06, (byte) 0x00, (byte) 0x00};
+				byte[] buf = new byte[] { (byte) 0x04, (byte) 0x00, (byte) 0x00 };
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// Set Red to 0
-				buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// bloomClose()
-//				buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
-//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-
-//				} else {
-//					BloomSingleton.getInstance().demoActive = false;
-////					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
-////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-//					buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
-//					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-//					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-////					buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 0
-////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-////					buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 0
-////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-//				}
 			}
 		});
+
+
+
+//		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
+//		buttonDemo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				byte[] buf;
+////				if (! BloomSingleton.getInstance().demoActive) {
+//				BloomSingleton.getInstance().demoActive = true;
+//
+//				// bloomOpen()
+////				buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
+////				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// loopRGB()
+//				buf = new byte[]{(byte) 0x06, (byte) 0x00, (byte) 0x00};
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// Set Red to 0
+//				buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// bloomClose()
+////				buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+////				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//
+////				} else {
+////					BloomSingleton.getInstance().demoActive = false;
+//////					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////					buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//////					buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 0
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//////					buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 0
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////				}
+//			}
+//		});
 
 
 		if (!getActivity().getPackageManager().hasSystemFeature(
@@ -459,9 +545,10 @@ public class MakerFragment extends Fragment
 //		updatePowerThresholds();
 //		updatePower();
 
-		if (BloomSingleton.getInstance().connState)
+		if (BloomSingleton.getInstance().connState) {
 			setButtonEnable();
-
+			updateBloomRGB();
+		}
 
 		return v;
 
@@ -762,10 +849,20 @@ public class MakerFragment extends Fragment
 		BloomSingleton.getInstance().flag = true;
 		BloomSingleton.getInstance().connState = true;
 
-		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Disconnect Bloom");
 
+		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+
+		redSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+		blueSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+		greenSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+
+		buttonOpen.setEnabled(true);
+		buttonClose.setEnabled(true);
+		buttonCycleServo.setEnabled(true);
+		buttonCycleRGB.setEnabled(true);
 		buttonDemo.setEnabled(true);
+
 	}
 
 
@@ -775,9 +872,18 @@ public class MakerFragment extends Fragment
 		BloomSingleton.getInstance().flag = false;
 		BloomSingleton.getInstance().connState = false;
 
-		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Connect Bloom");
 
+		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+
+		redSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+		blueSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+		greenSeekBar.setEnabled(BloomSingleton.getInstance().flag);
+
+		buttonOpen.setEnabled(false);
+		buttonClose.setEnabled(false);
+		buttonCycleServo.setEnabled(false);
+		buttonCycleRGB.setEnabled(false);
 		buttonDemo.setEnabled(false);
 
 		progressBarRange.setProgress(0);
@@ -837,6 +943,9 @@ public class MakerFragment extends Fragment
 			return;
 
 		setButtonEnable();
+
+		updateBloomRGB();
+
 		startReadRssi();
 
 		BloomSingleton.getInstance().characteristicTx = gattService
@@ -1082,160 +1191,6 @@ public class MakerFragment extends Fragment
 
 	// ################################################################
 
-//	public void updatePowerThresholds() {
-//
-//		/**
-//		 * The "Power" level refers to the Puzzlebox Orbit helicopter's
-//		 * throttle setting. Typically this is an "off" or "on" state,
-//		 * meaning the helicopter is either flying or not flying at all.
-//		 * However this method could be used to increase the throttle
-//		 * or perhaps the forward motion of the helicopter to a level
-//		 * proportionate to how far past their target brainwave levels
-//		 * are set (via the progress bar sliders).
-//		 */
-//
-//		int power;
-//		int attentionSeekValue;
-//		int meditationSeekValue;
-//		float percentOfMaxPower;
-//
-//		// Reset all values to zero
-//		for (int i = 0; i < thresholdValuesAttention.length; i++) {
-//			thresholdValuesAttention[i] = 0;
-//			thresholdValuesMeditation[i] = 0;
-//		}
-//
-//		attentionSeekValue = seekBarAttention.getProgress();
-//		if (attentionSeekValue > 0) {
-//			for (int i = attentionSeekValue; i < thresholdValuesAttention.length; i++) {
-//
-//				/**
-//				 *  Slider @ 70
-//				 *
-//				 * Attention @ 70
-//				 * Percentage = 0% ((100-70) - (100-70)) / (100-70)
-//				 * Power = 60 (minimumPower)
-//				 *
-//				 * Slider @ 70
-//				 * Attention @ 80
-//				 * Percentage = 33% ((100-70) - (100-80)) / (100-70)
-//				 * Power = 73
-//				 *
-//				 * Slider @ 70
-//				 * Attention @ 90
-//				 * Percentage = 66% ((100-70) - (100-90)) / (100-70)
-//				 * Power = 86
-//				 *
-//				 * Slider @ 70
-//				 * Attention @ 100
-//				 * Percentage = 100% ((100-70) - (100-100)) / (100-70)
-//				 * Power = 100
-//				 */
-//
-//				percentOfMaxPower = ( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
-//				power = thresholdValuesAttention[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
-//				thresholdValuesAttention[i] = power;
-//
-//			}
-//		}
-//
-//		meditationSeekValue = seekBarMeditation.getProgress();
-//		if (meditationSeekValue > 0) {
-//			for (int i = meditationSeekValue; i < thresholdValuesMeditation.length; i++) {
-//				percentOfMaxPower = ( ((100 - meditationSeekValue) - (100 - i)) / (float)(100 - meditationSeekValue) );
-//				power = thresholdValuesMeditation[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
-//				thresholdValuesMeditation[i] = power;
-//			}
-//		}
-//
-//	} // updatePowerThresholds
-
-
-	// ################################################################
-
-//	public void updatePower() {
-//
-//		/**
-//		 * This method updates the power level of the
-//		 * "Throttle" and triggers the audio stream
-//		 * which is used to fly the helicopter
-//		 */
-//
-//		if (ThinkGearService.eegConnected) {
-//
-//			if (ThinkGearService.eegSignal < 100) {
-//				ThinkGearService.eegAttention = 0;
-//				ThinkGearService.eegMeditation = 0;
-//				progressBarAttention.setProgress(ThinkGearService.eegAttention);
-//				progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
-//			}
-//
-//			ThinkGearService.eegPower = calculateSpeed();
-//			eegPower = ThinkGearService.eegPower;
-//
-//			progressBarPower.setProgress(ThinkGearService.eegPower);
-//
-//
-//		}
-//
-//		if (MuseService.eegConnected) {
-//
-////			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
-////			if (MuseService.eegSignal < 100) {
-////				MuseService.eegConcentration = 0;
-////				MuseService.eegMellow = 0;
-////				progressBarAttention.setProgress(MuseService.eegConcentration);
-////				progressBarMeditation.setProgress(MuseService.eegMellow);
-////			}
-//
-//			MuseService.eegPower = calculateSpeed();
-//
-//			progressBarPower.setProgress(MuseService.eegPower);
-//			eegPower = MuseService.eegPower;
-//
-//
-//		}
-//
-//
-//		updateServoPosition();
-//		updateBloomRGB();
-//
-//
-//	} // updatePower
-
-
-	// ################################################################
-
-//	public int calculateSpeed() {
-//
-//		/**
-//		 * This method is used for calculating whether
-//		 * or not the "Attention" or "Meditation" levels
-//		 * are sufficient to trigger the helicopter throttle
-//		 */
-//
-//		int attention = progressBarAttention.getProgress();
-//		int meditation = progressBarMeditation.getProgress();
-//		int attentionSeekValue = seekBarAttention.getProgress();
-//		int meditationSeekValue = seekBarMeditation.getProgress();
-//
-//		int speed = 0;
-//
-//		if (attention > attentionSeekValue)
-//			speed = thresholdValuesAttention[attention];
-//		if (meditation > meditationSeekValue)
-//			speed = speed + thresholdValuesMeditation[meditation];
-//
-//		if (speed > maximumPower)
-//			speed = maximumPower;
-//		if (speed < minimumPower)
-//			speed = 0;
-//
-//
-//		return(speed);
-//
-//
-//	} // calculateSpeed
 
 
 	// ################################################################
@@ -1280,201 +1235,40 @@ public class MakerFragment extends Fragment
 
 	public void updateBloomRGB() {
 
-
-		boolean sendRed = false;
-		boolean sendBlue = false;
-
-		int attentionSeekValue = seekBarAttention.getProgress();
-		int meditationSeekValue = seekBarMeditation.getProgress();
-
-		if (eegPower > 0) {
-
-			if (attentionSeekValue > 0) {
-				bloomColorRed = bloomColorRed + 8;
-				sendRed = true;
-			}
-			if (meditationSeekValue > 0) {
-				bloomColorBlue = bloomColorBlue + 8;
-				sendBlue = true;
-			}
-
-		} else {
+		bloomColorRed = redSeekBar.getProgress();
+		bloomColorGreen = greenSeekBar.getProgress();
+		bloomColorBlue = blueSeekBar.getProgress();
 
 
-			if (attentionSeekValue > 0) {
-				bloomColorRed = bloomColorRed - 6;
-				sendRed = true;
-			}
-			if (meditationSeekValue > 0) {
-				bloomColorBlue = bloomColorBlue - 6;
-				sendBlue = true;
-			}
+		if (BloomSingleton.getInstance().characteristicTx != null) {
+
+			byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) bloomColorRed};
+
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 
 		}
 
-		if (bloomColorRed > 255)
-			bloomColorRed = 255;
-		if (bloomColorBlue > 255)
-			bloomColorBlue = 255;
-		if (bloomColorGreen > 255)
-			bloomColorGreen = 255;
+		if (BloomSingleton.getInstance().characteristicTx != null) {
 
-		if (bloomColorRed < 0)
-			bloomColorRed = 0;
-		if (bloomColorBlue < 0)
-			bloomColorBlue = 0;
-		if (bloomColorGreen < 0)
-			bloomColorGreen = 0;
+			byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) bloomColorGreen};
 
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 
-		if (sendRed)
-			if (BloomSingleton.getInstance().characteristicTx != null) {
+		}
 
-				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) bloomColorRed};
+		if (BloomSingleton.getInstance().characteristicTx != null) {
 
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+			byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) bloomColorBlue};
 
-			}
+			BloomSingleton.getInstance().characteristicTx.setValue(buf);
+			BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 
-
-		if (sendBlue)
-			if (BloomSingleton.getInstance().characteristicTx != null) {
-
-				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) bloomColorBlue};
-
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-			}
+		}
 
 	}
 
-
-	// ################################################################
-
-//	public void hideEEGRawHistory() {
-//
-//		Log.v(TAG, "hideEEGRawHistory()");
-//
-//		if (eegRawHistoryPlot != null)
-//			eegRawHistoryPlot.setVisibility(View.GONE);
-//
-//
-//		//			removeView*(View)
-//		//			eegRawHistoryPlot.remove
-//		//			(XYPlot) v.findViewById(R.id.eegRawHistoryPlot)
-//
-//
-//	} // hideEEGRawHistory
-//
-//
-//	// ################################################################
-//
-//	public void updateEEGRawHistory(Number[] rawEEG) {
-//
-//		if (eegRawHistoryPlot != null) {
-//			eegRawHistoryPlot.removeSeries(eegRawHistorySeries);
-//
-//			eegRawHistorySeries = new SimpleXYSeries(Arrays.asList(rawEEG), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Raw EEG");
-//
-//			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
-//			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
-//			LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
-//
-//			//		format.getFillPaint().setAlpha(220);
-//
-//			eegRawHistoryPlot.addSeries(eegRawHistorySeries, format);
-//
-//
-//			// redraw the Plots:
-//			eegRawHistoryPlot.redraw();
-//
-//			rawEEG = new Number[512];
-//			arrayIndex = 0;
-//		}
-//
-//	} // updateEEGRawHistory
-
-
-	// ################################################################
-
-//	public void updateScore() {
-//
-//		/**
-//		 * Score points based on target slider levels
-//		 * If you pass your goal with either Attention or Meditation
-//		 * the higher target of the two will counts as points per second.
-//		 *
-//		 * Minimum threshold for points is set as "minimumScoreTarget"
-//		 *
-//		 * For example, assume minimumScoreTarget is 40%.
-//		 * If your target Attention is 60% and you go past to reach 80%
-//		 * you will receive 20 points per second (60-40). If your
-//		 * target is 80% and you reach 80% you will receive 40
-//		 * points per second (80-40).
-//		 *
-//		 * You can set both Attention and Meditation targets at the
-//		 * same time. Reaching either will fly the helicopter but you
-//		 * will only receive points for the higher-scoring target of
-//		 * the two.
-//		 *
-//		 */
-//
-//		int eegAttentionScore = 0;
-//		int eegAttention = progressBarAttention.getProgress();
-//		int eegAttentionTarget = seekBarAttention.getProgress();
-//
-//		int eegMeditationScore = 0;
-//		int eegMeditation = progressBarMeditation.getProgress();
-//		int eegMeditationTarget = seekBarMeditation.getProgress();
-//
-//		if ((eegAttention >= eegAttentionTarget) &&
-//				  (eegAttentionTarget > minimumScoreTarget))
-//			eegAttentionScore = eegAttentionTarget - minimumScoreTarget;
-//
-//		if ((eegMeditation >= eegMeditationTarget) &&
-//				  (eegMeditationTarget > minimumScoreTarget))
-//			eegMeditationScore = eegMeditationTarget - minimumScoreTarget;
-//
-//		if (eegAttentionScore > eegMeditationScore)
-//			scoreCurrent = scoreCurrent + eegAttentionScore;
-//		else
-//			scoreCurrent = scoreCurrent + eegMeditationScore;
-//
-//		textViewScore.setText(Integer.toString(scoreCurrent));
-//
-//		if (scoreCurrent > scoreHigh) {
-//			scoreHigh = scoreCurrent;
-//			textViewHighScore.setText(Integer.toString(scoreHigh));
-//		}
-//
-//
-//		// Catch anyone gaming the system with one slider
-//		// below the minimum threshold and the other over.
-//		// For example, setting Meditation to 1% will keep helicopter
-//		// activated even if Attention is below target
-//		if ((eegAttention < eegAttentionTarget) && (eegMeditation < minimumScoreTarget))
-//			resetCurrentScore();
-//		if ((eegMeditation < eegMeditationTarget) && (eegAttention < minimumScoreTarget))
-//			resetCurrentScore();
-//		if ((eegAttention < minimumScoreTarget) && (eegMeditation < minimumScoreTarget))
-//			resetCurrentScore();
-//
-//
-//	} // updateScore
-
-
-	// ################################################################
-
-//	public void resetCurrentScore() {
-//
-//		if (scoreCurrent > 0)
-//			textViewLastScore.setText(Integer.toString(scoreCurrent));
-//		scoreCurrent = 0;
-//		textViewScore.setText(Integer.toString(scoreCurrent));
-//
-//	} // resetCurrentScore
 
 	// ################################################################
 
