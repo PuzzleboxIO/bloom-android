@@ -1,0 +1,282 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="io.puzzlebox.jigsaw.ui.BloomFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:id="@+id/layoutMaker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:gravity="top"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_maker_title"
+                android:id="@+id/textViewMaker"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <Button
+                android:id="@+id/connectBloom"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/connectBloom"
+                android:layout_gravity="center"/>
+
+
+            <TextView
+                android:id="@+id/textViewLabelRange"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_medium"
+                android:text="@string/label_range" />
+
+            <ProgressBar
+                android:id="@+id/progressBarRange"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="25dip"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/textViewLabelServo"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_medium"
+                android:text="@string/label_servo" />
+
+            <SeekBar
+                android:id="@+id/ServoSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:max="100"
+                android:progress="0"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"/>
+            <!--android:progressDrawable="@drawable/seekbar_style" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_colors"
+                android:id="@+id/textViewRGB"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutColors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <!--android:gravity="center"-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelRed"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="@dimen/padding_medium"-->
+                    <!--android:text="@string/label_colors_red" />-->
+
+                <SeekBar
+                    android:id="@+id/seekBarRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progressDrawable="@drawable/progress_red"
+                    android:enabled="false"
+                    android:max="255"
+                    android:progress="255"
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:paddingBottom="5dp"/>
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelGreen"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="@dimen/padding_medium"-->
+                    <!--android:text="@string/label_colors_green" />-->
+
+                <SeekBar
+                    android:id="@+id/seekBarGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progressDrawable="@drawable/progress_green"
+                    android:enabled="false"
+                    android:max="255"
+                    android:progress="255"
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelBlue"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="@dimen/padding_medium"-->
+                    <!--android:text="@string/label_colors_blue" />-->
+
+                <SeekBar
+                    android:id="@+id/seekBarBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progressDrawable="@drawable/progress_blue"
+                    android:enabled="false"
+                    android:max="255"
+                    android:progress="255"
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:paddingTop="5dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_presets"
+                android:id="@+id/textViewPresets"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutControl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <Button
+                        android:id="@+id/buttonOpen"
+                        style="@style/button_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/custom_button"
+                        android:text="@string/buttonOpen"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp" >
+                    </View>
+
+                    <Button
+                        android:id="@+id/buttonClose"
+                        style="@style/button_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/custom_button"
+                        android:text="@string/buttonClose"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <Button
+                        android:id="@+id/buttonDemoServo"
+                        style="@style/button_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/custom_button"
+                        android:text="@string/buttonDemoServo"
+                        android:enabled="false"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp" >
+                    </View>
+
+                    <Button
+                        android:id="@+id/buttonDemoRGB"
+                        style="@style/button_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/custom_button"
+                        android:text="@string/buttonDemoRGB"
+                        android:enabled="false"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/buttonDemo"
+                        style="@style/button_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/custom_button"
+                        android:text="@string/buttonDemo"
+                        android:enabled="false"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--<com.androidplot.xy.XYPlot-->
+            <!--android:id="@+id/eegRawHistoryPlot"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="0dip"-->
+            <!--android:layout_marginLeft="0dp"-->
+            <!--android:layout_marginRight="0dp"-->
+            <!--android:layout_marginTop="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--title="EEG Raw Wave" />-->
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
