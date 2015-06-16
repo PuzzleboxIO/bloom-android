@@ -76,8 +76,8 @@ public class BloomFragment extends Fragment
 	 */
 	int eegPower = 0;
 
-	int bloomRange = 0;
-	int bloomRangeMax = 128;
+//	int bloomRange = 0;
+//	int bloomRangeMax = 128;
 	int bloomServoPercentage = 0;
 	int bloomColorRed = 0;
 	int bloomColorGreen = 0;
@@ -96,8 +96,8 @@ public class BloomFragment extends Fragment
 	ProgressBar progressBarPower;
 //	Button connectButton;
 
-	ProgressBar progressBarRange;
-//	ProgressBar progressBarBloom;
+//	ProgressBar progressBarRange;
+////	ProgressBar progressBarBloom;
 
 //	ImageView imageViewStatus;
 
@@ -218,18 +218,18 @@ public class BloomFragment extends Fragment
 		progressBarPower.setProgressDrawable(progressPower);
 		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarRange = (ProgressBar) v.findViewById(R.id.progressBarRange);
-//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
-//		String progressBarRangeColor = "#FF00FF";
-		String progressBarRangeColor = "#990099";
-		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
-		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-		progressBarRange.setProgressDrawable(progressRange);
-		progressBarRange.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-
-//		progressBarRange.setMax(128 + 127);
-		progressBarRange.setMax(bloomRangeMax);
+//		progressBarRange = (ProgressBar) v.findViewById(R.id.progressBarRange);
+////		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
+//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
+////		String progressBarRangeColor = "#FF00FF";
+//		String progressBarRangeColor = "#990099";
+//		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
+//		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+//		progressBarRange.setProgressDrawable(progressRange);
+//		progressBarRange.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+//
+////		progressBarRange.setMax(128 + 127);
+//		progressBarRange.setMax(bloomRangeMax);
 
 
 //		progressBarBloom = (ProgressBar) v.findViewById(R.id.progressBarBloom);
@@ -358,74 +358,74 @@ public class BloomFragment extends Fragment
 		});
 
 
-		Button buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
-		buttonOpen.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				byte[] buf = new byte[] { (byte) 0x01, (byte) 0x00, (byte) 0x00 };
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-			}
-		});
-		buttonOpen.setVisibility(View.GONE);
-
-		Button buttonClose = (Button) v.findViewById(R.id.buttonClose);
-		buttonClose.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				byte[] buf = new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00 };
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-			}
-		});
-		buttonClose.setVisibility(View.GONE);
-
-		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
-		buttonDemo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				byte[] buf;
-//				if (! BloomSingleton.getInstance().demoActive) {
-				BloomSingleton.getInstance().demoActive = true;
-
-				// bloomOpen()
-//				buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
+//		Button buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
+//		buttonOpen.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				byte[] buf = new byte[] { (byte) 0x01, (byte) 0x00, (byte) 0x00 };
 //				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 //				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// loopRGB()
-				buf = new byte[]{(byte) 0x06, (byte) 0x00, (byte) 0x00};
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// Set Red to 0
-				buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
-				BloomSingleton.getInstance().characteristicTx.setValue(buf);
-				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-
-				// bloomClose()
-//				buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+//			}
+//		});
+//		buttonOpen.setVisibility(View.GONE);
+//
+//		Button buttonClose = (Button) v.findViewById(R.id.buttonClose);
+//		buttonClose.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				byte[] buf = new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00 };
 //				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 //				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//			}
+//		});
+//		buttonClose.setVisibility(View.GONE);
 
-
-//				} else {
-//					BloomSingleton.getInstance().demoActive = false;
-////					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+//		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
+//		buttonDemo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				byte[] buf;
+////				if (! BloomSingleton.getInstance().demoActive) {
+//				BloomSingleton.getInstance().demoActive = true;
+//
+//				// bloomOpen()
+////				buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
+////				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// loopRGB()
+//				buf = new byte[]{(byte) 0x06, (byte) 0x00, (byte) 0x00};
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// Set Red to 0
+//				buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//				// bloomClose()
+////				buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+////				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//
+//
+////				} else {
+////					BloomSingleton.getInstance().demoActive = false;
+//////					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////					buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
 ////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
 ////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-//					buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
-//					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-//					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-////					buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 0
-////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-////					buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 0
-////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
-////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
-//				}
-			}
-		});
+//////					buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 0
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//////					buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 0
+//////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////				}
+//			}
+//		});
 
 
 		if (!getActivity().getPackageManager().hasSystemFeature(
@@ -710,29 +710,30 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	private void displayData(String data) {
-		if (data != null) {
-//			rssiValue.setText(data);
-
-			try{
-//				progressBarRange.setProgress( Integer.parseInt(data) );
-
-				// -128 to 127 [https://stackoverflow.com/questions/21609544/bluetooth-rssi-values-are-always-in-dbm-in-all-android-devices]
-				bloomRange = Integer.parseInt(data);
-
-				bloomRange = bloomRange + 128;
-
-				if (bloomRange > bloomRangeMax)
-					bloomRange = bloomRangeMax;
-
-				progressBarRange.setProgress( bloomRange );
-
-			} catch (Exception e) {
-				Log.e(TAG, "Exception: displayData(" + data + ")" + e.toString());
-			}
-
-		}
-	}
+//	private void displayData(String data) {
+//
+//		if (data != null) {
+////			rssiValue.setText(data);
+//
+//			try{
+////				progressBarRange.setProgress( Integer.parseInt(data) );
+//
+//				// -128 to 127 [https://stackoverflow.com/questions/21609544/bluetooth-rssi-values-are-always-in-dbm-in-all-android-devices]
+//				bloomRange = Integer.parseInt(data);
+//
+//				bloomRange = bloomRange + 128;
+//
+//				if (bloomRange > bloomRangeMax)
+//					bloomRange = bloomRangeMax;
+//
+//				progressBarRange.setProgress( bloomRange );
+//
+//			} catch (Exception e) {
+//				Log.e(TAG, "Exception: displayData(" + data + ")" + e.toString());
+//			}
+//
+//		}
+//	}
 
 
 	// ################################################################
@@ -778,9 +779,9 @@ public class BloomFragment extends Fragment
 		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Connect Bloom");
 
-		buttonDemo.setEnabled(false);
+//		buttonDemo.setEnabled(false);
 
-		progressBarRange.setProgress(0);
+//		progressBarRange.setProgress(0);
 	}
 
 
@@ -1520,8 +1521,8 @@ public class BloomFragment extends Fragment
 				BloomSingleton.getInstance().data = intent.getByteArrayExtra(RBLService.EXTRA_DATA);
 
 //				readAnalogInValue(data);
-			} else if (RBLService.ACTION_GATT_RSSI.equals(action)) {
-				displayData(intent.getStringExtra(RBLService.EXTRA_DATA));
+//			} else if (RBLService.ACTION_GATT_RSSI.equals(action)) {
+//				displayData(intent.getStringExtra(RBLService.EXTRA_DATA));
 			}
 		}
 	};

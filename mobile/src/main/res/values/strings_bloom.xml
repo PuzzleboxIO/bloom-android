@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_fragment_bloom">Bloom</string>
+    <string name="title_fragment_maker">Maker</string>
 
-    <string name="Rssi">RSSI</string>
-    <string name="rssiValue">---</string>
-    <string name="Servo">Servo</string>
-    <!--<string name="connect">Connect Bloom</string>-->
+
     <string name="connectBloom">Connect Bloom</string>
-    <string name="loading">Refreshing......</string>
 
-    <string name="buttonDemo">Demo</string>
-    <string name="buttonClose">Close</string>
+
+    <string name="label_bloom">Bloom</string>
+
+
+    <string name="label_maker_title">Test Controls for Makers</string>
+
+    <string name="label_servo">Servo Position</string>
+
+    <string name="label_range">Bluetooth Range</string>
+
+    <string name="label_colors">Colors</string>
+    <string name="label_colors_red">Red</string>
+    <string name="label_colors_green">Green</string>
+    <string name="label_colors_blue">Blue</string>
+
+    <string name="label_presets">Presets</string>
     <string name="buttonOpen">Open</string>
-    <string name="buttonRGB">Set RGB</string>
+    <string name="buttonClose">Close</string>
+    <string name="buttonDemoServo">Cycle Servo</string>
+    <string name="buttonDemoRGB">Cycle RGB</string>
+    <string name="buttonDemo">Demo Mode</string>
 
-    <string name="textViewRGB1">0</string>
-    <string name="textViewRGB2">0</string>
-    <string name="textViewRGB3">0</string>
+    <!--<string name="Rssi">RSSI</string>-->
+    <!--<string name="rssiValue">-&#45;&#45;</string>-->
+    <!--<string name="Servo">Servo</string>-->
+    <!--<string name="connect">Connect Bloom</string>-->
+    <!--<string name="loading">Refreshing......</string>-->
 
+    <!--<string name="buttonRGB">Set RGB</string>-->
 
-    <!--<string name="buttonConnectEEG">Connect EEG</string>-->
+    <!--<string name="textViewRGB1">0</string>-->
+    <!--<string name="textViewRGB2">0</string>-->
+    <!--<string name="textViewRGB3">0</string>-->
 
-
-    <!--<string name="label_servo">Servo</string>-->
-    <string name="label_servo">Bloom</string>
-    <string name="label_range">Range</string>
-    <!--<string name="label_bloom">Bloom</string>-->
 </resources>

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.puzzlebox.bloom.ui.MakerFragment;
 import io.puzzlebox.bloom.ui.WelcomeFragment;
 import io.puzzlebox.bloom.ui.BloomFragment;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
@@ -30,6 +31,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
         SessionFragment.OnFragmentInteractionListener,
         EEGFragment.OnFragmentInteractionListener,
         BloomFragment.OnFragmentInteractionListener,
+        MakerFragment.OnFragmentInteractionListener,
         SupportFragment.OnFragmentInteractionListener
 {
 
@@ -88,6 +90,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
                 dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+                dataList.add(new DrawerItem(getString(R.string.title_fragment_maker), R.mipmap.ic_bloom));
                 dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
                 return dataList;
@@ -146,6 +149,17 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
 
                                 break;
                         case 4:
+                                backStackName = "maker";
+                                try{
+                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                if (fragment == null)
+                                        fragment = new MakerFragment();
+
+                                break;
+                        case 5:
                                 backStackName = "support";
                                 try{
                                         fragment = getFragmentManager().findFragmentByTag(backStackName);
