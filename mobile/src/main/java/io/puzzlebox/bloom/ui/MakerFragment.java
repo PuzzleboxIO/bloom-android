@@ -178,14 +178,14 @@ public class MakerFragment extends Fragment
 
 
 		progressBarRange = (ProgressBar) v.findViewById(R.id.progressBarRange);
-//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
-		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
-//		String progressBarRangeColor = "#FF00FF";
-		String progressBarRangeColor = "#990099";
-		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
-		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-		progressBarRange.setProgressDrawable(progressRange);
-		progressBarRange.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+////		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
+//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
+////		String progressBarRangeColor = "#FF00FF";
+//		String progressBarRangeColor = "#990099";
+//		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
+//		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+//		progressBarRange.setProgressDrawable(progressRange);
+//		progressBarRange.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 //		progressBarRange.setMax(128 + 127);
 		progressBarRange.setMax(bloomRangeMax);
@@ -302,9 +302,6 @@ public class MakerFragment extends Fragment
 		});
 
 
-
-
-
 		redSeekBar = (SeekBar) v.findViewById(R.id.seekBarRed);
 		redSeekBar.setEnabled(false);
 		redSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -332,8 +329,6 @@ public class MakerFragment extends Fragment
 
 			}
 		});
-
-
 
 
 		greenSeekBar = (SeekBar) v.findViewById(R.id.seekBarGreen);
@@ -365,7 +360,6 @@ public class MakerFragment extends Fragment
 		});
 
 
-
 		blueSeekBar = (SeekBar) v.findViewById(R.id.seekBarBlue);
 		blueSeekBar.setEnabled(false);
 		blueSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -395,7 +389,6 @@ public class MakerFragment extends Fragment
 		});
 
 
-
 		buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
 		buttonOpen.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -405,7 +398,7 @@ public class MakerFragment extends Fragment
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
-//		buttonOpen.setVisibility(View.GONE);
+
 
 		buttonClose = (Button) v.findViewById(R.id.buttonClose);
 		buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -416,26 +409,18 @@ public class MakerFragment extends Fragment
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
-//		buttonClose.setVisibility(View.GONE);
-
-
-
-
-
 
 
 		buttonCycleServo = (Button) v.findViewById(R.id.buttonDemoServo);
 		buttonCycleServo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				byte[] buf = new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0x00 }; // Cycle
-				byte[] buf = new byte[] { (byte) 0x04, (byte) 0x00, (byte) 0x00 }; // CycleSlow
+				byte[] buf = new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0x00 }; // Cycle
+//				byte[] buf = new byte[] { (byte) 0x04, (byte) 0x00, (byte) 0x00 }; // CycleSlow
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
-
-
 
 
 		buttonCycleRGB = (Button) v.findViewById(R.id.buttonDemoRGB);
@@ -452,18 +437,15 @@ public class MakerFragment extends Fragment
 		});
 
 
-
-
 		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
 		buttonDemo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				byte[] buf = new byte[] { (byte) 0x04, (byte) 0x00, (byte) 0x00 };
+				byte[] buf = new byte[] { (byte) 0x05, (byte) 0x00, (byte) 0x00 };
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
-
 
 
 //		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);

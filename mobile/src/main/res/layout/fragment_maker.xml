@@ -48,15 +48,35 @@
 
             <ProgressBar
                 android:id="@+id/progressBarRange"
-                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/progress_violet"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"
                 android:paddingBottom="10dp"
                 android:paddingTop="5dp"/>
+
+            <!--android:paddingLeft="@dimen/padding_small"-->
+            <!--android:paddingRight="@dimen/padding_small"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+
+
+            <!--<SeekBar-->
+            <!--android:id="@+id/ServoSeekBar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:progressDrawable="@drawable/progress_yellow"-->
+            <!--android:enabled="false"-->
+            <!--android:max="100"-->
+            <!--android:progress="0"-->
+            <!--android:layout_marginLeft="@dimen/padding_large"-->
+            <!--android:layout_marginRight="@dimen/padding_large"-->
+            <!--android:paddingBottom="5dp"/>-->
+
 
             <TextView
                 android:id="@+id/textViewLabelServo"
@@ -71,6 +91,7 @@
                 android:id="@+id/ServoSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_yellow"
                 android:enabled="false"
                 android:max="100"
                 android:progress="0"
@@ -97,12 +118,12 @@
                 <!--android:gravity="center"-->
 
                 <!--<TextView-->
-                    <!--android:id="@+id/textViewLabelRed"-->
-                    <!--style="@android:style/TextAppearance.Small"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="@dimen/padding_medium"-->
-                    <!--android:text="@string/label_colors_red" />-->
+                <!--android:id="@+id/textViewLabelRed"-->
+                <!--style="@android:style/TextAppearance.Small"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--android:text="@string/label_colors_red" />-->
 
                 <SeekBar
                     android:id="@+id/seekBarRed"
@@ -117,12 +138,12 @@
                     android:paddingBottom="5dp"/>
 
                 <!--<TextView-->
-                    <!--android:id="@+id/textViewLabelGreen"-->
-                    <!--style="@android:style/TextAppearance.Small"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="@dimen/padding_medium"-->
-                    <!--android:text="@string/label_colors_green" />-->
+                <!--android:id="@+id/textViewLabelGreen"-->
+                <!--style="@android:style/TextAppearance.Small"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--android:text="@string/label_colors_green" />-->
 
                 <SeekBar
                     android:id="@+id/seekBarGreen"
@@ -138,12 +159,12 @@
                     android:paddingBottom="5dp"/>
 
                 <!--<TextView-->
-                    <!--android:id="@+id/textViewLabelBlue"-->
-                    <!--style="@android:style/TextAppearance.Small"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="@dimen/padding_medium"-->
-                    <!--android:text="@string/label_colors_blue" />-->
+                <!--android:id="@+id/textViewLabelBlue"-->
+                <!--style="@android:style/TextAppearance.Small"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--android:text="@string/label_colors_blue" />-->
 
                 <SeekBar
                     android:id="@+id/seekBarBlue"
