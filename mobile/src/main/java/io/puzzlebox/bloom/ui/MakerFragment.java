@@ -8,7 +8,8 @@ package io.puzzlebox.bloom.ui;
 
 //import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
+//import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;

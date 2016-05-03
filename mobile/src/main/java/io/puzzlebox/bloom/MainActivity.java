@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,14 +104,16 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
         @Override
         public void SelectItem(int position) {
 
-                android.app.Fragment fragment = null;
+//                android.app.Fragment fragment = null;
+//                android.support.v4.app.Fragment fragment = null;
+                Fragment fragment = null;
                 Bundle args = new Bundle();
                 String backStackName = "";
                 switch (position) {
                         case 0:
                                 backStackName = "welcome";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -119,7 +123,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         case 1:
                                 backStackName = "session";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -129,7 +133,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         case 2:
                                 backStackName = "eeg";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -140,7 +144,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         case 3:
                                 backStackName = "bloom";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -151,7 +155,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         case 4:
                                 backStackName = "maker";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -162,7 +166,7 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
                         case 5:
                                 backStackName = "support";
                                 try{
-                                        fragment = getFragmentManager().findFragmentByTag(backStackName);
+                                        fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
@@ -176,7 +180,8 @@ public class MainActivity extends io.puzzlebox.jigsaw.ui.MainActivity implements
 
                 if (fragment != null)
                         fragment.setArguments(args);
-                android.app.FragmentManager frgManager = getFragmentManager();
+//                android.app.FragmentManager frgManager = getFragmentManager();
+                FragmentManager frgManager = getSupportFragmentManager();
                 frgManager.beginTransaction().replace(io.puzzlebox.jigsaw.R.id.container, fragment)
                         .addToBackStack(backStackName)
                         .commit();
