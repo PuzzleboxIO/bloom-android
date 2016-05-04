@@ -1,3 +1,9 @@
+/**
+ * Puzzlebox Bloom
+ * Copyright 2015-2016 Puzzlebox Productions, LLC
+ * License: GNU Affero General Public License Version 3
+ */
+
 package io.puzzlebox.bloom.ui;
 
 import android.media.MediaPlayer;
@@ -8,14 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.VideoView;
-//import android.support.v4.app.Fragment;
-
 
 import io.puzzlebox.bloom.R;
-
-/**
- * Created by sc on 5/9/15.
- */
 
 public class WelcomeFragment extends io.puzzlebox.jigsaw.ui.WelcomeFragment {
 
